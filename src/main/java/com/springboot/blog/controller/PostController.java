@@ -3,6 +3,7 @@ package com.springboot.blog.controller;
 import com.springboot.blog.payload.PostDto;
 import com.springboot.blog.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,5 +25,10 @@ public class PostController {
     @GetMapping
     public List<PostDto> getAllPosts(){
         return postService.getAllPosts();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") long id){
+        return ResponseEntity.ok(postService.getPostById(id));
     }
 }
