@@ -7,6 +7,9 @@ import com.springboot.blog.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
@@ -15,23 +18,37 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto createPost(PostDto postDto) {
 
-        //convert dto to entity
+        Post post = mapToEntity(postDto);
+        Post newPost = postRepository.save(post);
+        PostDto postResponse = mapToDto(newPost);
+
+        return postResponse;
+    }
+
+    @Override
+    public List<PostDto> getAllPosts() {
+        List<Post> allPosts = postRepository.findAll();
+        return allPosts.stream().map(post -> mapToDto(post)).collect(Collectors.toList());
+    }
+
+    private PostDto mapToDto(Post post){
+        PostDto postDto = PostDto.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .description(post.getDescription())
+                .content(post.getContent())
+                .build();
+
+        return postDto;
+    }
+
+    private Post mapToEntity(PostDto postDto){
         Post post = Post.builder()
                 .title(postDto.getTitle())
                 .description(postDto.getDescription())
                 .content(postDto.getContent())
                 .build();
 
-        Post newPost = postRepository.save(post);
-
-        //convert entity to dto
-        PostDto postResponse = PostDto.builder()
-                .id(newPost.getId())
-                .title(newPost.getTitle())
-                .description(newPost.getDescription())
-                .content(newPost.getContent())
-                .build();
-
-        return postResponse;
+        return post;
     }
 }
