@@ -2,11 +2,12 @@ package com.springboot.blog.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Data
+@Data @Builder
 @AllArgsConstructor @NoArgsConstructor
 @Entity
 @Table(
