@@ -5,4 +5,5 @@ import com.springboot.blog.payload.CommentDto;
 public interface CommentService {
     CommentDto createComment(Long postId, CommentDto commentDto);
 
+    CommentDto getCommentById(Long postid, Long id);
 }

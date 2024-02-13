@@ -2,12 +2,14 @@ package com.springboot.blog.service.impl;
 
 import com.springboot.blog.domain.Comment;
 import com.springboot.blog.domain.Post;
+import com.springboot.blog.exception.BlogApiException;
 import com.springboot.blog.exception.ResourceNotFoundException;
 import com.springboot.blog.payload.CommentDto;
 import com.springboot.blog.repository.CommentRepository;
 import com.springboot.blog.repository.PostRepository;
 import com.springboot.blog.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,6 +26,18 @@ public class CommentServiceImpl implements CommentService {
         comment.setPost(post);
         Comment newComment = commentRepository.save(comment);
         return mapToDto(newComment);
+    }
+
+    @Override
+    public CommentDto getCommentById(Long postId, Long id) {
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new ResourceNotFoundException("Post", "id", postId));
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Comment","id",id));
+        if(!comment.getPost().getId().equals(post.getId())){
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Comment does not belong to the post");
+        }
+        return mapToDto(comment);
     }
 
     private CommentDto mapToDto(Comment comment){
