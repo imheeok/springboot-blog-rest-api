@@ -2,8 +2,12 @@ package com.springboot.blog.service;
 
 import com.springboot.blog.payload.CommentDto;
 
-public interface CommentService {
-    CommentDto createComment(Long postId, CommentDto commentDto);
+import java.util.List;
 
-    CommentDto getCommentById(Long postid, Long id);
+public interface CommentService {
+    CommentDto createComment(long postId, CommentDto commentDto);
+
+    List<CommentDto> getCommentsByPostId(long postId);
+
+    CommentDto getCommentById(long postId, long id);
 }
