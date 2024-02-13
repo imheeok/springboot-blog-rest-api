@@ -38,9 +38,9 @@ public class PostServiceImpl implements PostService {
                 ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
         Page<Post> posts = postRepository.findAll(pageable);
-        List<Post> postsList = posts.getContent();
+        List<Post> postList = posts.getContent();
 
-        List<PostDto> content = postsList.stream().map(post -> mapToDto(post)).collect(Collectors.toList());
+        List<PostDto> content = postList.stream().map(post -> mapToDto(post)).collect(Collectors.toList());
 
         PostResponse postResponse = PostResponse.builder()
                 .content(content)
