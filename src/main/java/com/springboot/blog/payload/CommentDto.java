@@ -1,9 +1,8 @@
 package com.springboot.blog.payload;
 
-import lombok.Builder;
 import lombok.Data;
 
-@Data @Builder
+@Data
 public class CommentDto {
     private long id;
     private String name;

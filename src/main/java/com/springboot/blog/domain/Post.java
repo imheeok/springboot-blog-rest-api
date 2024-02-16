@@ -1,17 +1,15 @@
 package com.springboot.blog.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data @Builder
-@AllArgsConstructor @NoArgsConstructor
 @Entity
+@Getter @Setter @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(
         name = "posts", uniqueConstraints = {@UniqueConstraint(columnNames = {"title"})}
 )
